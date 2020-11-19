@@ -4,12 +4,42 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python: 当前文件",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "生成VOC数据 .names",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/voc/voc_make_names.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--anno_dir", "F:/Science/datasets/移动端/Target_Connection/手机端目标检测1-PascalVOC-export/Annotations",
+                "--output", "./data/classes/mobile.names"
+            ]
+        },
+        {
+            "name": "转换VOC数据 ",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/voc/voc_convert.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--image_dir", "F:/Science/datasets/移动端/Target_Connection/手机端目标检测1-PascalVOC-export/JPEGImages",
+                "--anno_dir", "F:/Science/datasets/移动端/Target_Connection/手机端目标检测1-PascalVOC-export/Annotations",
+                "--train_list_txt", "F:/Science/datasets/移动端/Target_Connection/手机端目标检测1-PascalVOC-export/ImageSets/Main/train.txt",
+                "--val_list_txt", "F:/Science/datasets/移动端/Target_Connection/手机端目标检测1-PascalVOC-export/ImageSets/Main/val.txt",
+                "--classes",  "./data/classes/mobile.names",
+                "--train_output", "./data/dataset/train.txt",
+                "--val_output", "./data/dataset/val.txt"
+            ]
         },
         {
             "name": "Save Model",

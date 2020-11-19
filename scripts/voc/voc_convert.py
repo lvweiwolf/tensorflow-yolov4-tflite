@@ -26,6 +26,7 @@ def convert_annotation(list_txt, output_path, image_dir, anno_dir, class_names):
             line = f.readline().strip()
             if line is None or not line:
                 break
+            
             im_p = os.path.join(image_dir, line + IMAGE_EXT)
             an_p = os.path.join(anno_dir, line + ANNO_EXT)
 
