@@ -42,6 +42,17 @@
             ]
         },
         {
+            "name": "开始训练",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/train.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--tiny",
+            ]
+        },
+        {
             "name": "Save Model",
             "type": "python",
             "request": "launch",

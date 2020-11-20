@@ -1,3 +1,9 @@
+.idea/
+.vscode/
+*.pyc
+
 checkpoints/
 data/dataset
 data/classes
+data/detection
+data/log
