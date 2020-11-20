@@ -5,6 +5,11 @@ import os
 import shutil
 import numpy as np
 import tensorflow as tf
+
+physical_devices = tf.config.experimental.list_physical_devices('GPU')
+if len(physical_devices) > 0:
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
 from core.yolov4 import filter_boxes
 from tensorflow.python.saved_model import tag_constants
 import core.utils as utils
@@ -20,7 +25,7 @@ flags.DEFINE_integer('size', 416, 'resize images to')
 flags.DEFINE_string('annotation_path', "./data/dataset/val2017.txt", 'annotation path')
 flags.DEFINE_string('write_image_path', "./data/detection/", 'write image path')
 flags.DEFINE_float('iou', 0.5, 'iou threshold')
-flags.DEFINE_float('score', 0.25, 'score threshold')
+flags.DEFINE_float('score', 0.35, 'score threshold')
 
 def main(_argv):
     INPUT_SIZE = FLAGS.size
@@ -54,11 +59,12 @@ def main(_argv):
         for num, line in enumerate(annotation_file):
             annotation = line.strip().split()
             image_path = annotation[0]
-            image_name = image_path.split('/')[-1]
-            image = cv2.imread(image_path)
+            image_name = os.path.basename(image_path) #image_path.split('/')[-1]
+            image = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            bbox_data_gt = np.array([list(map(int, box.split(','))) for box in annotation[1:]])
-
+            bbox_data_gt = np.array([list(map(float, box.split(','))) for box in annotation[1:]])
+            bbox_data_gt = bbox_data_gt.astype(np.int64)
+            
             if len(bbox_data_gt) == 0:
                 bboxes_gt = []
                 classes_gt = []
@@ -110,9 +116,9 @@ def main(_argv):
             )
             boxes, scores, classes, valid_detections = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
 
-            # if cfg.TEST.DECTECTED_IMAGE_PATH is not None:
-            #     image_result = utils.draw_bbox(np.copy(image), [boxes, scores, classes, valid_detections])
-            #     cv2.imwrite(cfg.TEST.DECTECTED_IMAGE_PATH + image_name, image_result)
+            if cfg.TEST.DECTECTED_IMAGE_PATH is not None:
+                image_result = utils.draw_bbox(np.copy(image), [boxes, scores, classes, valid_detections])
+                cv2.imencode('.jpg', image_result)[1].tofile(cfg.TEST.DECTECTED_IMAGE_PATH + image_name)
 
             with open(predict_result_path, 'w') as f:
                 image_h, image_w, _ = image.shape

@@ -7,3 +7,6 @@ data/dataset
 data/classes
 data/detection
 data/log
+mAP/ground-truth
+mAP/predicted
+mAP/results_yolov4_tiny

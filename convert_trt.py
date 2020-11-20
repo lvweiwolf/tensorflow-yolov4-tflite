@@ -25,7 +25,7 @@ def representative_data_gen():
   batched_input = np.zeros((FLAGS.loop, FLAGS.input_size, FLAGS.input_size, 3), dtype=np.float32)
   for input_value in range(FLAGS.loop):
     if os.path.exists(fimage[input_value]):
-      original_image=cv2.imread(fimage[input_value])
+      original_image = cv2.imdecode(np.fromfile(fimage[input_value], dtype=np.uint8), cv2.IMREAD_UNCHANGED)
       original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
       image_data = utils.image_preporcess(np.copy(original_image), [FLAGS.input_size, FLAGS.input_size])
       img_in = image_data[np.newaxis, ...].astype(np.float32)

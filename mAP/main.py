@@ -450,11 +450,11 @@ with open(results_files_path + "/results.txt", 'w') as results_file:
         else: # found image
           #print(img_path + "/" + ground_truth_img[0])
           # Load image
-          img = cv2.imread(img_path + "/" + ground_truth_img[0])
+          img = cv2.imdecode(np.fromfile(img_path + "/" + ground_truth_img[0], dtype=np.uint8), cv2.IMREAD_UNCHANGED)
           # load image with draws of multiple detections
           img_cumulative_path = results_files_path + "/images/" + ground_truth_img[0]
           if os.path.isfile(img_cumulative_path):
-            img_cumulative = cv2.imread(img_cumulative_path)
+            img_cumulative = cv2.imdecode(np.fromfile(img_cumulative_path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
           else:
             img_cumulative = img.copy()
           # Add bottom border to image
@@ -568,9 +568,9 @@ with open(results_files_path + "/results.txt", 'w') as results_file:
         cv2.waitKey(20) # show for 20 ms
         # save image to results
         output_img_path = results_files_path + "/images/single_predictions/" + class_name + "_prediction" + str(idx) + ".jpg"
-        cv2.imwrite(output_img_path, img)
+        cv2.imencode('.jpg', img)[1].tofile(output_img_path)
         # save the image with all the objects drawn to it
-        cv2.imwrite(img_cumulative_path, img_cumulative)
+        cv2.imencode('.jpg', img_cumulative)[1].tofile(img_cumulative_path)
 
     #print(tp)
     # compute precision/recall

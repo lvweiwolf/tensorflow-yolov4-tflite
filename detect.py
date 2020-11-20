@@ -32,7 +32,7 @@ def main(_argv):
     input_size = FLAGS.size
     image_path = FLAGS.image
 
-    original_image = cv2.imread(image_path)
+    original_image = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
     original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
 
     # image_data = utils.image_preprocess(np.copy(original_image), [input_size, input_size])
@@ -83,8 +83,8 @@ def main(_argv):
     image = Image.fromarray(image.astype(np.uint8))
     image.show()
     image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
-    cv2.imwrite(FLAGS.output, image)
-
+    cv2.imencode('.jpg', image)[1].tofile(FLAGS.output)
+      
 if __name__ == '__main__':
     try:
         app.run(main)

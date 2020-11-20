@@ -80,7 +80,7 @@ def main(_argv):
 
     # Test the TensorFlow Lite model on random input data.
     sum = 0
-    original_image = cv2.imread(FLAGS.image)
+    original_image = cv2.imdecode(np.fromfile(FLAGS.image, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
     original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
     original_image_size = original_image.shape[:2]
     image_data = utils.image_preprocess(np.copy(original_image), [FLAGS.size, FLAGS.size])
