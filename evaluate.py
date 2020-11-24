@@ -118,6 +118,7 @@ def main(_argv):
 
             if cfg.TEST.DECTECTED_IMAGE_PATH is not None:
                 image_result = utils.draw_bbox(np.copy(image), [boxes, scores, classes, valid_detections])
+                image_result = cv2.cvtColor(np.array(image_result), cv2.COLOR_BGR2RGB)
                 cv2.imencode('.jpg', image_result)[1].tofile(cfg.TEST.DECTECTED_IMAGE_PATH + image_name)
 
             with open(predict_result_path, 'w') as f:
@@ -125,10 +126,10 @@ def main(_argv):
                 for i in range(valid_detections[0]):
                     if int(classes[0][i]) < 0 or int(classes[0][i]) > NUM_CLASS: continue
                     coor = boxes[0][i]
-                    coor[0] = int(coor[0] * image_h)
-                    coor[2] = int(coor[2] * image_h)
-                    coor[1] = int(coor[1] * image_w)
-                    coor[3] = int(coor[3] * image_w)
+                    coor[0] = int(coor[0])
+                    coor[2] = int(coor[2])
+                    coor[1] = int(coor[1])
+                    coor[3] = int(coor[3])
 
                     score = scores[0][i]
                     class_ind = int(classes[0][i])
