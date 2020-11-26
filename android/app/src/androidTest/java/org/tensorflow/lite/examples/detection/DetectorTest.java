@@ -42,7 +42,8 @@ import org.junit.runner.RunWith;
 import org.tensorflow.lite.examples.detection.env.ImageUtils;
 import org.tensorflow.lite.examples.detection.tflite.Classifier;
 import org.tensorflow.lite.examples.detection.tflite.Classifier.Recognition;
-import org.tensorflow.lite.examples.detection.tflite.TFLiteObjectDetectionAPIModel;
+// import org.tensorflow.lite.examples.detection.tflite.TFLiteObjectDetectionAPIModel;
+import org.tensorflow.lite.examples.detection.tflite.YoloV4Classifier;
 
 /** Golden test for Object Detection Reference app. */
 @RunWith(AndroidJUnit4.class)
@@ -64,11 +65,10 @@ public class DetectorTest {
     AssetManager assetManager =
         InstrumentationRegistry.getInstrumentation().getContext().getAssets();
     detector =
-        TFLiteObjectDetectionAPIModel.create(
+        YoloV4Classifier.create(
             assetManager,
             MODEL_FILE,
             LABELS_FILE,
-            MODEL_INPUT_SIZE,
             IS_MODEL_QUANTIZED);
     int cropSize = MODEL_INPUT_SIZE;
     int previewWidth = IMAGE_SIZE.getWidth();

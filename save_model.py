@@ -58,6 +58,7 @@ def save_tf():
   model.summary()
   model.save(FLAGS.output)
 
+  # 量化模型freeze_graph.pb
   full_model = tf.function(lambda x: model(x))
   full_model = full_model.get_concrete_function(x=tf.TensorSpec(model.inputs[0].shape, model.inputs[0].dtype))
   

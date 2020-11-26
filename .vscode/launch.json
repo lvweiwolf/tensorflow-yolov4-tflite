@@ -88,10 +88,12 @@
             "console": "integratedTerminal",
             "justMyCode": false,
             "args": [
-                "--weights", "./checkpoints/yolov4",
-                "--output", "./checkpoints/yolov4-416",
+                "--weights", "F:/Science/jupyter workspace/darknet/build_cmake/Release/checkpoints/yolov4-obj-tiny_best.weights",
+                "--output", "./checkpoints/yolov4-416-tiny",
                 "--input_size", "416",
                 "--model", "yolov4",
+                "--framework", "tflite",
+                "--tiny"
             ]
         }
     ]

@@ -4,8 +4,8 @@ import tensorflow as tf
 
 
 
-model_dir ='./checkpoints/yolov4-tiny-416/frozen_models'
-freezefile = 'simple_frozen_graph.pb'
+model_dir ='./checkpoints/yolov4-416-tiny/frozen_models'
+freezefile = 'frozen_graph.pb'
 
 gpuConfig = tf.compat.v1.ConfigProto(allow_soft_placement=True)
 gpuConfig.gpu_options.allow_growth = True
